@@ -1,9 +1,31 @@
+source ./head.cmd
+
+git_check_version(){
+	echo "git_check_version"
+	if [ version_gt $ver1 $ver2 ]; then
+		echo $ver1 $ver2
+	fi 
+	if [ version_le $ver1 $ver2 ]; then
+		echo $ver1 $ver2
+	fi 
+	if [ version_lt $ver1 $ver2 ]; then
+		echo $ver1 $ver2
+	fi 
+	if [ version_ge $ver1 $ver2 ]; then
+		echo $ver1 $ver2
+	fi 
+}
+
+
+
 git_cmd=$1
 git_num=$#
 
 #test
 echo $git_cmd
 echo $git_num
+git_check_version
+
 
 case $git_cmd in
 "init")
