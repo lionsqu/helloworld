@@ -27,11 +27,11 @@ case $git_cmd in
 	exit
 	;;	
 "add")
-	git add
+	git add $2 $3
 	exit
 	;;
 "commit")
-	git commit
+	git commit $2 $3
 	exit
 	;;
 "pull")
@@ -56,6 +56,22 @@ case $git_cmd in
 	;;
 "log")
 	git log
+	exit
+	;;
+"config")
+	case $2 in
+	"--global")
+		case $3 in
+		"user.name")
+			git config --global user.name $4
+			exit
+			;;
+		"user.email")
+			git config --global user.email $4
+			;;
+		esac
+		;;
+	esac
 	exit
 	;;
 *)
