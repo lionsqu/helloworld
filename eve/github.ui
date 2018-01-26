@@ -1,0 +1,68 @@
+
+github(){
+	dialog --title "Github操作" --menu "请选择操作：" 12 35 5 \
+	1 "操作" 2 "操作" 3 "返回"
+}
+
+github_rep(){
+	dialog --title "Github版本库管理器" --menu "请选择操作：" 12 35 5 \
+	1 "从Github获得版本库" 2 "" 3 "" 4 "返回" >/tmp/github.tmp.menu
+	result=$?
+
+}
+
+github_rep_clone_done(){
+	github_url="https://github.com/"
+	echo "github_rep_clone_done"
+	project_name=$(sudo sed -n '1p' /tmp/github.ui.tmp.rep_clone)	
+	#project_name=$(sudo cat /tmp/github.ui.tmp.rep_clone) 
+	account_name=$(sudo sed -n '1p' /tmp/github.ui.tmp.rep_clone)
+	project_name=$(sudo sed -n '2p' /tmp/github.ui.tmp.rep_clone)
+	work_dir=$(sudo sed -n '3p' /tmp/github.ui.tmp.rep_clone)
+
+	echo "项目名称："
+	echo $project_name
+	echo "Git完整路径："${github_url}${account_name}"/"${project_name}".git"
+	sh git.cmd clone ${github_url}${account_name}"/"${project_name}".git" $work_dir
+
+	exit;
+}
+
+github_rep_clone(){
+	dialog --title "Github版本库管理器" --form "请输入Github项目名称或者完整路径：" 12 40 4 \
+	"帐号名称：" 1 1 "" 1 15 15 0 \
+	"项目名称：" 2 1 "" 2 15 15 0 \
+	"项目完整路径：" 3 1 "" 3 15 15 0 2>/tmp/github.ui.tmp.rep_clone
+	
+	result=$?
+	if [ $result -eq 0 ]; then
+		github_rep_clone_done;
+		exit;
+	elif [ $result -eq 255 ]; then
+		exit 255; 
+	fi	
+
+}
+
+
+github_project(){
+	dialog --title "Github项目管理器" --menu "请选择操作：" 12 35 5 \
+	1 "" 2 "" 3 "" 4 "返回"
+}
+
+github_cmd=$1
+github_num=$#
+
+#test
+echo $github_cmd
+echo $github_num
+
+case $github_cmd in
+"clone")
+	github_rep_clone
+	;;
+esac
+
+#github_rep	
+
+
