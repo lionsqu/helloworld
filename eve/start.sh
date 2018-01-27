@@ -13,13 +13,10 @@
 #
 
 
-#debug
-#sh python.cmd
-#sh git.cmd
-#sh github.cmd
-#sh github.ui
 
-source ./head.cmd
+suite_folder=$(cd "$(dirname "$0")";pwd)
+source $suite_folder/head.cmd
+
 
 dialog --title "目录" \
 --backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
@@ -38,10 +35,10 @@ if [ test $debug ]; then  echo "selected="${selected}; fi
 
 case $selected in
 1)
-	sh ./github.ui
+	sh $suite_folder/github.ui
 	;;
 2)
-	sh ./git.ui
+	sh $suite_folder/git.ui
 	;;
 3)
 	exit 0;

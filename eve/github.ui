@@ -1,117 +1,197 @@
-source ./head.cmd
+#! /bin/sh
+#
+# Github Tool Suite v0.1
+# Copyright (c) 2018 Zhengfeng Qu (Lions) Suzhou,China.
+# Email: lionsqu@yahoo.com
+#
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the
+# Free Software Foundation;
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the email: lionsqu@yahoo.com.
+#
 
 
-github_done(){
-	echo 
-}
 
-github(){
-	dialog --title "Github操作管理器" --menu "请选择操作：" 12 35 5 \
-	1 "版本库操作" 2 "项目操作" 3 "代码操作" 4 "参数设置" 5 "退出" 2>/tmp/github.tmp.menu
+suite_folder=$(cd "$(dirname "$0")";pwd)
+source $suite_folder/head.cmd
 
-	result=$?
+
+#版本库管理器
+function github_repository_init() {
+        dialog --title "Github初始化版本库" \
+        --backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
+Suzhou,China." \
+        --form "请输入版本库名称或者完整路径：" 15 50 8 \
+        "版本库：" 1 1 "" 1 10 35 0 \
+        2>/tmp/github.ui.repository.init.tmp
+
+        result=$?
 	if [ $result -eq 0 ]; then
-		github_done;
-		exit;
+		repository_folder=$(sudo sed -n '1p' /tmp/github.ui.repository.init.tmp)
+        	#debug
+        	if [ test $debug ]; then 
+			echo "repository_folder="${repository_folder}; 
+		fi
+		
+		sh ${suite_folder}/github.cmd init ${repository_folder}	
+	elif [ $result -eq 1 ]; then
+		github_repository
 	elif [ $result -eq 255 ]; then
-		exit 255;
-	fi 
-
-}
-
-github_rep(){
-	dialog --title "Github版本库管理器" --menu "请选择操作：" 12 35 5 \
-	1 "从Github获得版本库" 2 "" 3 "" 4 "返回" 2>/tmp/github.rep.tmp.menu
-	result=$?
-
-}
-
-github_rep_clone_done(){
-	github_url="https://github.com/"
-	echo "github_rep_clone_done"
-	project_name=$(sudo sed -n '1p' /tmp/github.ui.tmp.rep_clone)	
-	#project_name=$(sudo cat /tmp/github.ui.tmp.rep_clone) 
-	account_name=$(sudo sed -n '1p' /tmp/github.ui.tmp.rep_clone)
-	project_name=$(sudo sed -n '2p' /tmp/github.ui.tmp.rep_clone)
-	work_dir=$(sudo sed -n '3p' /tmp/github.ui.tmp.rep_clone)
-
-	echo "项目名称："
-	echo $project_name
-	echo "Git完整路径："${github_url}${account_name}"/"${project_name}".git"
-	sh git.cmd clone ${github_url}${account_name}"/"${project_name}".git" $work_dir
-
-	exit;
-}
-
-github_rep_clone(){
-	dialog --title "Github版本库管理器" --form "请输入Github项目名称或者完整路径：" 12 40 4 \
-	"帐号名称：" 1 1 "" 1 15 15 0 \
-	"项目名称：" 2 1 "" 2 15 15 0 \
-	"项目完整路径：" 3 1 "" 3 15 15 0 2>/tmp/github.ui.tmp.rep_clone
-	
-	result=$?
-	if [ $result -eq 0 ]; then
-		github_rep_clone_done;
-		exit;
-	elif [ $result -eq 255 ]; then
-		exit 255; 
-	fi	
-
-}
-
-
-github_project(){
-	dialog --title "Github项目管理器" --menu "请选择操作：" 12 35 5 \
-	1 "" 2 "" 3 "" 4 "返回"
-}
-
-github_code(){
-	dialog --title "Github代码管理器" --menu "请选择操作：" 12 35 5 \
-	1 "添加代码" 2 "提交代码" 3 "删除代码" 4 "同步服务器" 5 "同步本地" 6 "返回" 2>/tmp/github.cmd.tmp.code
-	result=$?
-	if [ $result -eq 0 ]; then
-		github_code_done
-	elif [ $result -eq 255 ]; then
-		exit 255;
+		exit 255;	
 	fi
- 
+	
+	return
 }
 
-github_config_done(){
-	echo
-	github_url=
+function github_repository_clone() {
+        dialog --title "Github克隆版本库" \
+        --backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
+Suzhou,China." \
+        --form "请输入版本库名称或者完整路径：" 15 50 8 \
+        "版本库：" 1 1 "" 1 10 35 0 \
+        2>/tmp/github.ui.repository.clone.tmp
+
+        result=$?
+        if [ $result -eq 0 ]; then
+                repository_folder=$(sudo sed -n '1p' /tmp/github.ui.repository.clone.tmp)
+                #debug
+                if [ test $debug ]; then
+                        echo "repository_folder="${repository_folder};
+                fi
+
+                sh ${suite_folder}/github.cmd clone ${repository_folder}
+        elif [ $result -eq 1 ]; then
+                github_repository
+        elif [ $result -eq 255 ]; then
+                exit 255;
+        fi
+	
+	return
 }
 
-github_config(){
-	dialog --title "Github参数配置" --form "请设置参数：" 12 40 4 \
-	"Github访问路径:" 1 1 “” 1 15 15 0 \
-	"帐号名称：" 2 1 "" 2 15 15 0 \
-	"项目名称：" 3 1 "" 3 15 15 0 \
-	"电子邮箱：" 4 1 “” 4 15 15 0 \
-	2>/tmp/github.ui.tmp.config
+function github_repository_remove() {
+        dialog --title "Github删除版本库" \
+        --backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
+Suzhou,China." \
+        --form "请输入版本库名称或者完整路径：" 15 50 8 \
+        "版本库：" 1 1 "" 1 10 35 0 \
+        2>/tmp/github.ui.repository.remove.tmp
 
-	result=$?
-	if [ $result -eq 0 ]; then
-		github_config_done;
-		exit;
-	elif [ $result -eq 255 ]; then
-		exit 255;
-	fi 
+        result=$?
+        if [ $result -eq 0 ]; then
+                repository_folder=$(sudo sed -n '1p' /tmp/github.ui.repository.remove.tmp)
+                #debug
+                if [ test $debug ]; then
+                        echo "repository_folder="${repository_folder};
+                fi
+
+                #sh ${suite_folder}/github.cmd remove ${repository_folder}
+        elif [ $result -eq 1 ]; then
+                github_repository
+        elif [ $result -eq 255 ]; then
+                exit 255;
+        fi
+
+	return
 }
 
-github_cmd=$1
-github_num=$#
+function github_repository() {
+	dialog --title "Github版本库管理器" --no-cancel \
+	--backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
+Suzhou,China." \
+	--menu "请选择操作：" 15 50 8 \
+	1 "初始化版本库" 2 "克隆版本库" 3 "删除版本库" 4 "返回" \
+	2>/tmp/github.ui.repository.tmp
 
-#test
-echo $github_cmd
-echo $github_num
+	selected=$(sudo sed -n '1p' /tmp/github.ui.repository.tmp)
+	#debug
+	if [ test $debug ]; then echo "selected="${selected}; fi
 
-case $github_cmd in
-"clone")
-	github_rep_clone
+	case $selected in
+	1)
+        	github_repository_init
+        	;;
+	2)
+        	github_repository_clone
+        	;;
+	3)
+        	github_repository_remove
+        	;;
+	4)
+        	sh ${suite_folder}/github.ui
+		;;
+	esac
+
+	return
+}
+
+#分支管理器
+function github_branch() {
+        dialog --title "Github分支管理器" --no-cancel \
+        --backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
+Suzhou,China." \
+        --menu "请选择操作：" 15 50 8 \
+        1 "初始化版本库" 2 "克隆版本库" 3 "删除版本库" 4 "返回" \
+        2>/tmp/github.ui.repository.tmp
+
+
+	return
+}
+
+#代码管理器
+function github_code() {
+        dialog --title "Github代码管理器" --no-cancel \
+        --backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
+Suzhou,China." \
+        --menu "请选择操作：" 15 50 8 \
+        1 "初始化版本库" 2 "克隆版本库" 3 "删除版本库" 4 "返回" \
+        2>/tmp/github.ui.repository.tmp
+
+
+	return
+}
+
+#参数配置
+function github_config() {
+        dialog --title "Github参数配置" --no-cancel \
+        --backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
+Suzhou,China." \
+        --menu "请选择操作：" 15 50 8 \
+        1 "初始化版本库" 2 "克隆版本库" 3 "删除版本库" 4 "返回" \
+        2>/tmp/github.ui.repository.tmp
+
+
+	return
+}
+
+
+dialog --title "Github操作管理器" --no-cancel \
+--backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
+Suzhou,China." \
+--menu "请选择操作：" 15 50 8 \
+1 "版本库管理" 2 "分支管理" 3 "代码管理" 4 "参数配置" 5 "返回" \
+2>/tmp/github.ui.menu.tmp
+
+selected=$(sudo sed -n '1p' /tmp/github.ui.menu.tmp)
+#debug
+if [ test $debug ]; then echo "selected="${selected}; fi
+
+case $selected in
+1)
+	github_repository
+	;;
+2)
+	github_branch
+	;;
+3)
+	github_code
+	;;
+4)
+	github_config
+	;;
+5)
+	sh $suite_folder/start.sh
 	;;
 esac
-
-#github_rep	
-
-github
