@@ -20,14 +20,14 @@ source $suite_folder/head.cmd
 
 #项目管理器
 function github_project() {
-	local current_folder=$(pwd)
+	local subfolder=$(getfirstsubfolder)
 	#debug
-	#echo ${current_folder}
+	#echo ${subfolder}
 
         dialog --title "Github项目浏览" \
         --backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
 Suzhou,China." \
-        --dselect ${current_folder} 6 60  \
+        --dselect ${subfolder} 6 60  \
         2>/tmp/github.ui.project.tmp
 
 	result=$?

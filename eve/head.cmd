@@ -29,3 +29,14 @@ function terminal_cols() {
 	tput cols
 }
 
+
+
+#获得当前目录下的第一个子目录路径
+function getfirstsubfolder() {
+	ls -d */>/tmp/dir.tmp
+	local folder=$(sudo sed -n '1p' /tmp/dir.tmp)
+	folder=${folder%/*}
+	echo $(pwd)/${folder}
+	return
+}
+
