@@ -1,5 +1,6 @@
 #! /bin/sh
 #
+# Github Tool Suite v0.1
 # Copyright (c) 2018 Zhengfeng Qu (Lions) Suzhou,China.
 # Email: lionsqu@yahoo.com
 #
@@ -20,15 +21,18 @@
 
 source ./head.cmd
 
-dialog --title "目录" --no-cancel --menu "请选择操作：" 12 35 5 \
-1 "Github操作" 2 "Git操作" 3 "退出" 2>/tmp/start.sh.menu.tmp
+dialog --title "目录" \
+--backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
+Suzhou,China." \
+--no-cancel --menu "请选择操作：" 15 50 8 \
+1 "Github操作" 2 "Git操作" 3 "退出" \
+2>/tmp/start.sh.menu.tmp
 
 result=$?
 #debug
 if [ test $debug ]; then echo "result="${result}; fi
 
-#selected=$form_paras "/tmp/start.sh.menu.tmp" "1"
-selected=form_paras '"/tmp/start.sh.menu.tmp"' '"1"'
+selected=$(sudo sed -n '1p' /tmp/start.sh.menu.tmp)
 #debug 
 if [ test $debug ]; then  echo "selected="${selected}; fi
 
