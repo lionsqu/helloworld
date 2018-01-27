@@ -18,6 +18,31 @@ suite_folder=$(cd "$(dirname "$0")";pwd)
 source $suite_folder/head.cmd
 
 
+#项目管理器
+function github_project() {
+	local current_folder=$(pwd)
+	#debug
+	#echo ${current_folder}
+
+        dialog --title "Github项目浏览" \
+        --backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
+Suzhou,China." \
+        --dselect ${current_folder} 6 60  \
+        2>/tmp/github.ui.project.tmp
+
+	result=$?
+	if [ $result -eq 0 ]; then
+		selected_folder=$(sudo sed -n '1p' /tmp/github.ui.project.tmp)
+		echo ${selected_folder}
+	elif [ $result -eq 1 ]; then
+		sh ${suite_folder}/github.ui
+	elif [ $result -eq 255  ]; then
+		exit 255;
+	fi
+	
+	return
+}
+
 #版本库管理器
 function github_repository_init() {
         dialog --title "Github初始化版本库" \
@@ -174,7 +199,7 @@ dialog --title "Github操作管理器" --no-cancel \
 --backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
 Suzhou,China." \
 --menu "请选择操作：" 15 50 8 \
-1 "版本库管理" 2 "分支管理" 3 "代码管理" 4 "参数配置" 5 "返回" \
+1 "项目管理器" 2 "版本库管理" 3 "分支管理" 4 "代码管理" 5 "参数配置" 6 "返回" \
 2>/tmp/github.ui.menu.tmp
 
 selected=$(sudo sed -n '1p' /tmp/github.ui.menu.tmp)
@@ -183,18 +208,21 @@ if [ test $debug ]; then echo "selected="${selected}; fi
 
 case $selected in
 1)
-	github_repository
+	github_project
 	;;
 2)
-	github_branch
+	github_repository
 	;;
 3)
-	github_code
+	github_branch
 	;;
 4)
-	github_config
+	github_code
 	;;
 5)
+	github_config
+	;;
+6)
 	sh $suite_folder/start.sh
 	;;
 esac
