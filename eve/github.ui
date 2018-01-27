@@ -49,19 +49,22 @@ function github_repository_clone() {
         dialog --title "Github克隆版本库" \
         --backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
 Suzhou,China." \
-        --form "请输入版本库名称或者完整路径：" 15 50 8 \
-        "版本库：" 1 1 "" 1 10 35 0 \
+        --form "请按提示输入：" 15 50 8 \
+        "账户名称：" 1 1 "" 1 15 25 0 \
+        "项目名称：" 2 1 "" 2 15 25 0 \
         2>/tmp/github.ui.repository.clone.tmp
 
         result=$?
         if [ $result -eq 0 ]; then
-                repository_folder=$(sudo sed -n '1p' /tmp/github.ui.repository.clone.tmp)
+                account_name=$(sudo sed -n '1p' /tmp/github.ui.repository.clone.tmp)
+                project_name=$(sudo sed -n '2p' /tmp/github.ui.repository.clone.tmp)
                 #debug
                 if [ test $debug ]; then
-                        echo "repository_folder="${repository_folder};
+                        echo "account_name="${account_name};
+                        echo "project_name="${project_name};
                 fi
 
-                sh ${suite_folder}/github.cmd clone ${repository_folder}
+                sh ${suite_folder}/github.cmd clone ${account_name} ${project_name}
         elif [ $result -eq 1 ]; then
                 github_repository
         elif [ $result -eq 255 ]; then

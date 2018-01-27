@@ -13,6 +13,7 @@
 #
 
 
+
 suite_folder=$(cd "$(dirname "$0")";pwd)
 #debug
 #echo $suite_folder
@@ -45,7 +46,11 @@ case $git_cmd in
 	2)
 		git clone $2 $3
 		;;
+	3)
+		git clone $3 $4 
+		;;
 	*)
+		echo $git_num
 		exit 255
 		;;
 	esac
