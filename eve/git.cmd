@@ -13,14 +13,17 @@
 #
 
 
-
-source ./head.cmd
+suite_folder=$(cd "$(dirname "$0")";pwd)
+#debug
+#echo $suite_folder
+source $suite_folder/head.cmd
 
 
 git_cmd=$1
 git_num=$#
 
 case $git_cmd in
+#repository
 "init")
 	case $git_num in
 	1)
@@ -37,8 +40,10 @@ case $git_cmd in
 "clone")
 	case $git_num in
 	1)
+		git clone $2
 		;;
 	2)
+		git clone $2 $3
 		;;
 	*)
 		exit 255
@@ -50,12 +55,90 @@ case $git_cmd in
         1)
                 ;;
         2)
+		#git rm $2
+		rm -rf $2
                 ;;
         *)
                 exit 255
                 ;;
         esac
 	;;
+"push")
+        case $git_num in
+        1)
+		git push
+                ;;
+        2)
+                ;;
+        *)
+                exit 255
+                ;;
+        esac
+	;;
+"pull")
+        case $git_num in
+        1)
+		git pull
+                ;;
+        2)
+                ;;
+        *)
+                exit 255
+                ;;
+        esac
+	;;
+#branch
+"branch")
+	;;
+"commit")
+        case $git_num in
+        1)
+                ;;
+        2)
+		git commit $2 $3 
+                ;;
+	3)
+		git commit $2 $3 $4
+		;;
+        *)
+                exit 255
+                ;;
+        esac
+	;;
+#code
+"add")
+	;;
+"mv")
+	;;
+"rm")
+	;;
+"reset")
+	;;
+"log")
+        case $git_num in
+        1)
+		git log
+                ;;
+        2)
+                ;;
+        *)
+                exit 255
+                ;;
+        esac
+	;;
+"status")
+        case $git_num in
+        1)
+		git status
+                ;;
+        2)
+                ;;
+        *)
+                exit 255
+                ;;
+        esac
+	;;
+
 *)
 	exit 255
 	;;
