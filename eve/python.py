@@ -69,3 +69,14 @@ import StringIO
 parser.parse(StringIO.StringIO(data))
 
 
+import xml.etree.ElementTree as ETree
+
+def create_xml():
+	root = ETree.Element("hello")
+	root.set("version", "1.0")
+	tree = ETree.ElementTree(root)
+	tree.write("test.xml", encoding="UTF-8")
+	return True
+
+if __name__ == '__main__':
+	create_xml()
