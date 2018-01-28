@@ -20,3 +20,52 @@ import sys
 
 print "脚本名称：", sys.argv[0]
 print "参数个数：", len(sys.argv)
+for i in range(1, len(sys.argv)):
+	print "参数：", i , sys.argv[i]
+
+
+from xml.sax import *
+
+
+def xml_list(root):
+        authors = []
+        for authors in root.findall('./project'):
+                data = {
+                        "fnm": None,
+                        "snm": None,
+                        "email": Node,
+                        "insr": []
+                }
+                data["fnm"] = author.findtext('./fnm')
+                data["snm"] = author.findtext('./snm')
+                data["email"] = author.findtext('./email')
+                insr = author.findall('./insr')
+
+                for i in insr:
+                        data["insr"].append(i.attrib["iid"])
+                        authors.append(data)
+                return authors
+
+
+xml_list
+
+
+class MyHandler(ContentHandler):
+	def startDocument(self):
+		print "Start"
+
+	def endDocument(self):
+		print "End"
+
+	
+parser = make_parser()
+parser.setContentHandler(MyHandler())
+
+data =  """<goods></goods>
+	"""
+
+import StringIO
+
+parser.parse(StringIO.StringIO(data))
+
+
