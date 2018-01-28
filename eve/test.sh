@@ -3,17 +3,8 @@ echo $folder
 
 source $folder/head.cmd
 
-#ls -d * >/tmp/dir.tmp
+source $folder/python.cmd
 
+value=$(setting_read "config" "total")
+echo ${value}
 
-folder1=$(getfirstsubfolder)
-echo ${folder1}
-
-
-test=$(ls -d *)
-echo ${test}
-
-
-ls -d */>/tmp/dir.tmp
-folder=$(sudo sed -n '1p' /tmp/dir.tmp)
-echo ${folder}

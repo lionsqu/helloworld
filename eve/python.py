@@ -1,4 +1,5 @@
-#! /bin/sh
+#! /usr/bin/python
+# coding:utf-8
 #
 # Github Tool Suite v0.1
 # Copyright (c) 2018 Zhengfeng Qu (Lions) Suzhou,China.
@@ -14,4 +15,8 @@
 
 
 
+import sys
 
+
+print "脚本名称：", sys.argv[0]
+print "参数个数：", len(sys.argv)

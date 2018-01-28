@@ -112,6 +112,18 @@ case $git_cmd in
 	;;
 #code
 "add")
+        case $git_num in
+        1)
+                ;;
+        2)
+                git add $2 
+                ;;
+        3)
+                ;;
+        *)
+                exit 255
+                ;;
+        esac
 	;;
 "mv")
 	;;
