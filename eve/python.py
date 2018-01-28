@@ -15,6 +15,31 @@
 
 
 
+import ConfigParser
+
+
+config = ConfigParser.ConfigParser()
+
+
+config.add_section("test")
+config.set("test", "test", "hello")
+
+config.write(open('config.ini', "w"))
+
+config.readfp(open('config.ini'))
+
+value = config.get("test", "test")
+
+print value
+
+
+
+
+
+
+
+
+"""
 import sys
 
 
@@ -61,8 +86,8 @@ class MyHandler(ContentHandler):
 parser = make_parser()
 parser.setContentHandler(MyHandler())
 
-data =  """<goods></goods>
-	"""
+#data =  " " "<goods></goods>
+#	" " "
 
 import StringIO
 
@@ -80,3 +105,5 @@ def create_xml():
 
 if __name__ == '__main__':
 	create_xml()
+
+"""
