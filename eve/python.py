@@ -53,8 +53,9 @@ if __name__ == '__main__':
 		if (__debug__ == True) :print "参数个数：3"
 
 
-
-
+import commands
+(status, output) = commands.getstatusoutput('$(dialog --title "hello" --msgbox 10 10 10)')	
+print status, output
 
 
 """
