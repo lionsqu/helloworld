@@ -15,6 +15,49 @@
 
 
 
+import sys
+import ConfigParser
+
+
+def config_read(section, name):
+	config = ConfigParser.ConfigParser()
+	config.readfp(open('config.ini'))
+	value = config.get(section, name)
+	return value	
+
+def config_write(section, name, value):
+	config = ConfigParser.ConfigParser()
+	config.readfp(open('config.ini'))
+	
+	if (not config.has_section(section)):	
+		config.add_section(section)
+	config.set(section, name, value)
+	config.write(open('config.ini', "w"))
+	return	
+
+if __name__ == '__main__':
+	argc = len(sys.argv)
+	if (argc == 1):
+		if (__debug__ == True) :print "参数个数：1"
+	elif (argc == 2):
+		if (__debug__ == True) :print "参数个数：2"
+	elif (argc == 4):
+		if (__debug__ == True) :print "参数个数：4"
+		if (sys.argv[1] == "config_read"):
+			value = config_read(sys.argv[2], sys.argv[3])	
+			print value	
+	elif (argc == 5):
+		if (sys.argv[1] == "config_write"):
+			config_write(sys.argv[2], sys.argv[3], sys.argv[4])	
+	else:
+		if (__debug__ == True) :print "参数个数：3"
+
+
+
+
+
+
+"""
 import ConfigParser
 
 
@@ -31,7 +74,7 @@ config.readfp(open('config.ini'))
 value = config.get("test", "test")
 
 print value
-
+"""
 
 
 
