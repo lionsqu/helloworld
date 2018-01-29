@@ -1,0 +1,49 @@
+system
+	base
+	
+
+	platform
+		os
+	
+		language
+
+		database
+
+		support
+
+
+application
+	basic
+
+
+	middleware
+
+
+	industry	
+		game/cartoon/animation
+
+		
+		cad
+
+
+		network
+
+	
+		it
+
+
+		mobile
+
+
+		embedded		
+
+
+		aviation/aerospace
+
+
+		seafaring
+
+
+
+
+
