@@ -19,27 +19,17 @@ import sys
 
 
 def project_list():
-	#print "'project_list'"
-
-	print "dialog --backtitle \"\" " #--no-cancel \\"
-	print "--checklist \"hello\" 20 50 10 "
 	print "Memory Memory_Size 1 Disk Disk_Size 2 "
-	print "2>/tmp/project.ui.menu.tmp"	
 
 	return 0
 
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
 	argc = len(sys.argv)
-	#print ("'argc=%d'"%(argc))
-	if (argc == 1):
-		print ""
-	elif (argc == 3):
-		if(sys.argv[1] == "list"):
-			#print "'list'"
+	debug = False 
+	if debug == True :print ("argc=%d"%argc) 
+	if (argc == 2):
+		if ( sys.argv[1] == "list" ):
 			project_list()
-	else:
-		print ""
-
 	
  

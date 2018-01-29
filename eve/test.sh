@@ -2,7 +2,9 @@ folder=$(cd "$(dirname "$0")";pwd)
 source $folder/head.cmd
 
 
-dialog --title "$(python test.py)" --yesno "this is a test" 10 20
+dialog --title "test" --checklist "test" 20 50 10 \
+$(python test.py) \
+2>/tmp/test.tmp
 
 result=$?
 echo "result="$result

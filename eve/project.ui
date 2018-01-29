@@ -19,94 +19,23 @@ source $suite_folder/head.cmd
 
 
 #项目管理器
-:<<!
 function project_list() {
         dialog --title "项目浏览" \
         --backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
 Suzhou,China." \
-        --form "请输入版本库名称或者完整路径：" 15 50 8 \
-        "版本库：" 1 1 "" 1 10 35 0 \
-        2>/tmp/git.ui.repository.init.tmp
+        --checklist "请选择项目：" 15 50 8 \
+	$(python test.py) \
+	2>/tmp/project.ui.list.tmp
 
         result=$?
         if [ $result -eq 0 ]; then
-                repository_folder=$(sudo sed -n '1p' /tmp/git.ui.repository.init.tmp)
+                project_selected=$(sudo sed -n '1p' /tmp/project.ui.list.tmp)
                 #debug
                 if [ test $debug ]; then
-                        echo "repository_folder="${repository_folder};
+                        echo "project_selected="${project_selected};
                 fi
 
-                #sh ${suite_folder}/git.cmd init ${repository_folder}
         elif [ $result -eq 1 ]; then
-                #git_repository
-		echo
-        elif [ $result -eq 255 ]; then
-                exit 255;
-        fi
-
-	return
-}
-!
-
-function project_list() {
-	#'value=$(python project.py "list" "/tmp/project.ui.list.tmp" |sh)'
-	value=`python project.py "list" "/tmp/project.ui.list.tmp"`
-	echo ${value}
-
-	echo 'Hello!'
-
-
-	result=$?
-	echo "result="${result}
-	return
-}
-
-function project_create() {
-        dialog --title "新建项目" \
-        --backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
-Suzhou,China." \
-        --form "请输入版本库名称或者完整路径：" 15 50 8 \
-        "版本库：" 1 1 "" 1 10 35 0 \
-        2>/tmp/git.ui.repository.init.tmp
-
-        result=$?
-        if [ $result -eq 0 ]; then
-                repository_folder=$(sudo sed -n '1p' /tmp/git.ui.repository.init.tmp)
-                #debug
-                if [ test $debug ]; then
-                        echo "repository_folder="${repository_folder};
-                fi
-
-                #sh ${suite_folder}/git.cmd init ${repository_folder}
-        elif [ $result -eq 1 ]; then
-                #git_repository
-		echo
-        elif [ $result -eq 255 ]; then
-                exit 255;
-        fi
-
-	return
-}
-
-function project_config() {
-        dialog --title "参数配置" \
-        --backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
-Suzhou,China." \
-        --form "请输入版本库名称或者完整路径：" 15 50 8 \
-        "版本库：" 1 1 "" 1 10 35 0 \
-        2>/tmp/git.ui.repository.init.tmp
-
-        result=$?
-        if [ $result -eq 0 ]; then
-                repository_folder=$(sudo sed -n '1p' /tmp/git.ui.repository.init.tmp)
-                #debug
-                if [ test $debug ]; then
-                        echo "repository_folder="${repository_folder};
-                fi
-
-                #sh ${suite_folder}/git.cmd init ${repository_folder}
-        elif [ $result -eq 1 ]; then
-                #git_repository
 		echo
         elif [ $result -eq 255 ]; then
                 exit 255;
@@ -120,7 +49,7 @@ dialog --title "项目管理器" --no-cancel \
 --backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
 Suzhou,China." \
 --menu "请选择操作：" 15 50 8 \
-1 "项目浏览" 2 "新建项目" 3 "参数配置" 4 "退出" \
+1 "项目浏览" 2 "退出" \
 2>/tmp/project.ui.menu.tmp
 
 selected=$(sudo sed -n '1p' /tmp/project.ui.menu.tmp)
@@ -132,10 +61,7 @@ case $selected in
 	project_list
         ;;
 2)
-	project_create
-	;;
-3)
-	project_config
+	exit 0
 	;;
 esac
 

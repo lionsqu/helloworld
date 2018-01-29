@@ -16,3 +16,7 @@
 
 suite_folder=$(cd "$(dirname "$0")";pwd)
 
+
+sh $suite_folder/project.ui
+
+
