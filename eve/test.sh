@@ -1,16 +1,8 @@
 folder=$(cd "$(dirname "$0")";pwd)
-echo $folder
-
 source $folder/head.cmd
 
-#source $folder/python.cmd
 
-#value=$(setting_read "config" "total")
-echo ${value}
+dialog --title "$(python test.py)" --yesno "this is a test" 10 20
 
-str='dialog --msgbox "" 10 10'
-
-$(${str})
-
-
-
+result=$?
+echo "result="$result
