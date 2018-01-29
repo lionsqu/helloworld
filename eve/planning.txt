@@ -1,49 +1,16 @@
-system
-	base
-	
-
-	platform
-		os
-	
-		language
-
-		database
-
-		support
+work
+	projects
 
 
-application
-	basic
+	classify
 
 
-	middleware
+	software
 
 
-	industry	
-		game/cartoon/animation
-
-		
-		cad
+	suite
 
 
-		network
-
-	
-		it
-
-
-		mobile
-
-
-		embedded		
-
-
-		aviation/aerospace
-
-
-		seafaring
-
-
-
+	storage
 
 
