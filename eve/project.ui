@@ -24,7 +24,7 @@ function project_list() {
         --backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
 Suzhou,China." \
         --checklist "请选择项目：" 15 50 8 \
-	$(python test.py) \
+	$(python project.py list) \
 	2>/tmp/project.ui.list.tmp
 
         result=$?
