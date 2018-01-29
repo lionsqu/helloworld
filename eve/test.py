@@ -1,12 +1,22 @@
-import locale
-from dialog import Dialog
+import sqlite3
 
-locale.setlocale(locale.LC_ALL, '')
+conn = sqlite3.connect("test.db")
+conn.execute("create table if not exists address(id integer primary key autoincrement, name varchar(128), address varchar(128))")
 
+conn.execute("insert into address(name, address) values('Lions', 'Suzhou')")
 
-d = Dialog(dialog="dialog")
+conn.commit()
 
-d. set_background_title("My little")
+cursor = conn.cursor()
+cursor.execute("select * from address")
 
-if d.yesno("ajsdfks ") == d.OK:
-	d.msgbox("adfsdf")
+result = cursor.fetchall()
+
+for record in result:
+	for feild in record:
+		print feild,
+	print
+
+cursor.close()
+conn.close()
+
