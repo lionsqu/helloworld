@@ -15,31 +15,25 @@
 
 
 
-import sys
-from sqlite import Sqlite
+import sqlite3
 
 
-def project_list():
-	print "Memory Memory_Size 1 Disk Disk_Size 2 "
+class Sqlite(object):
+	def __init(self):
+		print 
+
+	def open(self, filename):
+		self.conn = sqlite3.connect(filename)	
+		self.cursor = self.conn.cursor()	
 	
-	#Sqlite.open("project.db")
+	def close(self):
+		if hasattr(self, "conn") and self.conn:
+			self.conn.close()	
 
-	sqlite = Sqlite()
-	sqlite.open("project.db")	
-
-	sqlite.execute("select * from projects")
-
-	sqlite.close()
-
-	return 0
-
-
-if __name__ == '__main__':
-	argc = len(sys.argv)
-	debug = False 
-	if debug == True :print ("argc=%d"%argc) 
-	if (argc == 2):
-		if ( sys.argv[1] == "list" ):
-			project_list()
+	def execute(self, sql = None):
+		self.cursor.execute(sql)
+		self.conn.commit()
 	
- 
+	pass
+
+
