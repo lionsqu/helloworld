@@ -21,13 +21,25 @@ from sqlite import Sqlite
 
 def project_list():
 	print "Memory Memory_Size 1 Disk Disk_Size 2 "
-	
-	#Sqlite.open("project.db")
 
 	sqlite = Sqlite()
 	sqlite.open("project.db")	
 
 	sqlite.execute("select * from projects")
+
+	sqlite.close()
+
+	return 0
+
+
+def project_create(project_name):
+	sqlite = Sqlite()
+
+	sqlite.open("project.db")
+
+	sqlite.execute("create table if not exists projects(id integer primary key autoincrement, project_name varchar(128))")
+
+	sqlite.execute("insert into projects(project_name)values(%s)"%(project_name))
 
 	sqlite.close()
 
@@ -42,4 +54,6 @@ if __name__ == '__main__':
 		if ( sys.argv[1] == "list" ):
 			project_list()
 	
- 
+	elif (argc == 3):
+		if ( sys.argv[1] == "create" ):
+			project_create(sys.argv[2]) 

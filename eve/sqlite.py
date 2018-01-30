@@ -31,6 +31,7 @@ class Sqlite(object):
 			self.conn.close()	
 
 	def execute(self, sql = None):
+		print sql
 		self.cursor.execute(sql)
 		self.conn.commit()
 	
