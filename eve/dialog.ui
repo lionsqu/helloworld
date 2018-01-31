@@ -1,0 +1,65 @@
+#! /bin/sh
+#
+# Github Tool Suite v0.1
+# Copyright (c) 2018 Zhengfeng Qu (Lions) Suzhou,China.
+# Email: lionsqu@yahoo.com
+#
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the
+# Free Software Foundation;
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the email: lionsqu@yahoo.com.
+#
+
+
+
+suite_folder=$(cd "$(dirname "$0")";pwd)
+
+
+function dialog_calendar() {
+	echo 'dialog --title "title" --backtitle "backtitle" --clear --calendar "date" 1 1 1 1 2000' 
+
+	echo "asdfasdfsadf"
+
+	return
+}
+
+
+
+dialog --title "Dialog代码生成器" --ok-label "预览" \
+--extra-button --extra-label "生成代码" --cancel-label "退出" \
+--backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
+Suzhou,China." \
+--menu "请选择操作：" 15 50 8 \
+1 "日历" 2 "列表" 3 "目录选择" 4 "编辑框" 5 "表单" \
+6 "文件选择" 7 "gauge" 8 "消息框" 9 "输入框" 10 "输入菜单" \
+11 "菜单" 12 "混合表单" 13 "mixedgauge" 14 "消息框" 15 "密码框" \
+16 "密码表单" 17 "暂停" 18 "进度条" 19 "单选框" 20 "tailbox" \
+21 "tailgoxbg" 22 "文本框" 23 "时间框" 24 "是否框" \
+2>/tmp/dialog.ui.menu.tmp
+
+result=$?
+
+selected=$(sudo sed -n '1p' /tmp/dialog.ui.menu.tmp)
+#debug
+if [ test $debug ]; then echo "selected="${selected}; fi
+
+echo $result
+case $result in 
+0)
+	case $selected in 
+	1)
+		(${dailog_calendar})
+		#dialog --title "title" --backtitle "backtitle" --calendar "date" 2 3 
+
+		;;
+	esac
+	;;
+1)
+	exit 0;
+	;;
+3)
+	;;
+esac
+
