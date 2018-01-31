@@ -1,0 +1,92 @@
+#! /bin/sh
+#
+# Github Tool Suite v0.1
+# Copyright (c) 2018 Zhengfeng Qu (Lions) Suzhou,China.
+# Email: lionsqu@yahoo.com
+#
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the
+# Free Software Foundation;
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the email: lionsqu@yahoo.com.
+#
+
+
+
+suite_folder=$(cd "$(dirname "$0")";pwd)
+source $suite_folder/head.cmd
+
+
+#数据库管理器
+function database_create() {
+        dialog --title "新建数据库" \
+        --backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
+Suzhou,China." \
+        --form "请输入数据库文件名和保存路径：" 15 50 8 \
+        "数据库名：" 1 1 "" 1 10 35 0 \
+        "保存路径：" 2 1 "" 2 10 35 0 \
+        2>/tmp/database.ui.create.tmp
+
+        result=$?
+        if [ $result -eq 0 ]; then
+                database_name=$(sudo sed -n '1p' /tmp/database.ui.create.tmp)
+                save_folder=$(sudo sed -n '2p' /tmp/database.ui.create.tmp)
+                #debug
+                if [ test $debug ]; then
+                        echo "database_name="${database_name};
+                        echo "save_folder="${save_folder};
+                fi
+
+                python ${suite_folder}/database.py "create" "${save_folder}/${database_name}"
+        elif [ $result -eq 1 ]; then
+               	echo; 
+        elif [ $result -eq 255 ]; then
+		exit 255;	
+	fi
+
+	return
+}
+
+
+function database_open() {
+	return
+}
+
+
+function database_list() {
+	return
+}
+
+
+function database_remove() {
+	return
+}
+
+
+dialog --title "数据库管理器" --no-cancel \
+--backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
+Suzhou,China." \
+--menu "请选择操作：" 15 50 8 \
+1 "新建数据库" 2 "打开数据库" 3 "浏览数据库" 4 "删除数据库" 5 "退出" \
+2>/tmp/database.ui.menu.tmp
+
+
+selected=$(sudo sed -n '1p' /tmp/database.ui.menu.tmp)
+#debug
+if [ test $debug ]; then echo "selected="${selected}; fi
+
+case $selected in
+1)
+        database_create 
+        ;;
+2)
+        database_open
+	;;
+3)
+	database_list
+	;;
+4)
+	database_remove
+esac
+
