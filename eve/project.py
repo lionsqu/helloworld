@@ -15,7 +15,7 @@
 
 
 
-import sys
+import sys, os
 from sqlite import Sqlite
 
 
@@ -51,6 +51,11 @@ def project_create(project_name):
 	sqlite.execute("insert into projects(project_name)values('%s')"%(project_name))
 
 	sqlite.close()
+
+	result = True
+	if(result == True):
+		path=os.getcwd()
+		os.makedirs("%s/../projects/%s"%(path, project_name))
 
 	return 0
 
