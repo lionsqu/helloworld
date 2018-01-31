@@ -44,6 +44,22 @@ Suzhou,China." \
 	return
 }
 
+
+function project_create_done() {
+        project_name=$1
+        echo "project_name="${project_name}
+
+        python project.py "create" ${project_name}
+        result=$?
+
+        if [ $result -eq 0 ]; then
+                echo
+        fi
+
+        return
+}
+
+
 function project_create() {
         dialog --title "新建项目" \
         --backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
@@ -59,7 +75,7 @@ Suzhou,China." \
                 if [ test $debug ]; then
                         echo "project_name="${project_name};
                 fi
-		project_create_done project_name
+		project_create_done ${project_name};
         elif [ $result -eq 1 ]; then
                 echo
         elif [ $result -eq 255 ]; then
@@ -69,19 +85,6 @@ Suzhou,China." \
 	return
 }
 
-function project_create_done() {
-	project_name=$1
-	echo "project_name="${project_name}
-
-	python project.py create ${project_name}
-	result= $?
-
-	if [ $result -eq 0 ]; then
-		echo	
-	fi
-	
-	return
-}
 
 
 dialog --title "项目管理器" --no-cancel \

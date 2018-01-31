@@ -20,12 +20,19 @@ from sqlite import Sqlite
 
 
 def project_list():
-	print "Memory Memory_Size 1 Disk Disk_Size 2 "
+	#print "Memory Memory_Size 1 Disk Disk_Size 2 "
 
 	sqlite = Sqlite()
 	sqlite.open("project.db")	
 
-	sqlite.execute("select * from projects")
+	result = sqlite.execute("select * from projects")
+	i = 0
+	for record in result:
+		for field in record:
+			print field,
+		i = i + 1
+		print i,
+	#print ("\\")
 
 	sqlite.close()
 
@@ -35,11 +42,13 @@ def project_list():
 def project_create(project_name):
 	sqlite = Sqlite()
 
+	print ("project_name=%s"%(project_name))
+
 	sqlite.open("project.db")
 
 	sqlite.execute("create table if not exists projects(id integer primary key autoincrement, project_name varchar(128))")
 
-	sqlite.execute("insert into projects(project_name)values(%s)"%(project_name))
+	sqlite.execute("insert into projects(project_name)values('%s')"%(project_name))
 
 	sqlite.close()
 
@@ -56,4 +65,5 @@ if __name__ == '__main__':
 	
 	elif (argc == 3):
 		if ( sys.argv[1] == "create" ):
+			print "project_create"
 			project_create(sys.argv[2]) 
