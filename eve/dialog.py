@@ -16,6 +16,7 @@
 
 
 import sys
+from head import Head
 from config import ConfigFile
 
 
@@ -44,6 +45,8 @@ def preview(i):
 
 	result = config.get(i, "code")
 	print result,
+	if (Head.Debug == True):
+		print ("result=%s"%result)
 
 
 

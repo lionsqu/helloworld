@@ -33,13 +33,14 @@ function dialog_code() {
 }
 
 
-dialog --title "Dialog代码生成器" --ok-label "预览" \
---extra-button --extra-label "生成代码" --cancel-label "退出" \
---backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
+function dialog_main() {
+	dialog --title "Dialog代码生成器" --ok-label "预览" \
+	--extra-button --extra-label "生成代码" --cancel-label "退出" \
+	--backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
 Suzhou,China." \
---menu "请选择操作：" 15 50 8 \
-$(python dialog.py getsections) \
-2>/tmp/dialog.ui.menu.tmp
+	--menu "请选择操作：" 15 50 8 \
+	$(python dialog.py getsections) \
+	2>/tmp/dialog.ui.menu.tmp
 
 #1 "日历" 2 "列表" 3 "目录选择" 4 "编辑框" 5 "表单" \
 #6 "文件选择" 7 "gauge" 8 "消息框" 9 "输入框" 10 "输入菜单" \
@@ -48,22 +49,35 @@ $(python dialog.py getsections) \
 #21 "tailgoxbg" 22 "文本框" 23 "时间框" 24 "是否框" \
 #2>/tmp/dialog.ui.menu.tmp
 
+	result=$?
+
+	selected=$(sudo sed -n '1p' /tmp/dialog.ui.menu.tmp)
+	#debug
+	if [ test $debug ]; then echo "selected="${selected}; fi
+
+	echo $result
+	case $result in 
+	0)
+		dialog_preview $selected
+		;;
+	1)
+		exit 0;
+		;;
+	3)
+		dialog_code $selected
+		;;
+	esac
+
+}
+
+
+dialog_main
+
 result=$?
+while $result -eq 0;do
+	dialog_main
+done
+	
 
-selected=$(sudo sed -n '1p' /tmp/dialog.ui.menu.tmp)
-#debug
-if [ test $debug ]; then echo "selected="${selected}; fi
 
-echo $result
-case $result in 
-0)
-	dialog_preview $selected
-	;;
-1)
-	exit 0;
-	;;
-3)
-	dialog_code $selected
-	;;
-esac
 
