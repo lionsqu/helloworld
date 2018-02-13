@@ -14,6 +14,12 @@
 #
 
 
-
+#全局参数类
 class Head:
+	#调试开关
 	Debug = False 
+
+	#项目目录前缀,开发状态使用".."，正式状态使用"."
+	FolderPrefix = ".."
+
+
