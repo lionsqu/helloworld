@@ -15,6 +15,7 @@
 
 
 suite_folder=$(cd "$(dirname "$0")";pwd)
+source $suite_folder/head.cmd
 
 
 function dialog_preview() {
@@ -27,19 +28,24 @@ function dialog_preview() {
 }
 
 
-function dialog_code() {
+function dialog_short() {
 
 	return
 }
 
+function dialog_full() {
+	
+	return
+}
 
-function dialog_main() {
+
+function dialog_code() {
 	dialog --title "Dialog代码生成器" --ok-label "预览" \
 	--extra-button --extra-label "生成代码" --cancel-label "退出" \
 	--backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
 Suzhou,China." \
 	--menu "请选择操作：" 15 50 8 \
-	$(python dialog.py getsections) \
+	$(python dialog.py list) \
 	2>/tmp/dialog.ui.menu.tmp
 
 #1 "日历" 2 "列表" 3 "目录选择" 4 "编辑框" 5 "表单" \
@@ -58,22 +64,61 @@ Suzhou,China." \
 	echo $result
 	case $result in 
 	0)
-		dialog_preview $selected
+		#dialog_preview $selected
 		;;
 	1)
 		exit 0;
 		;;
 	3)
-		dialog_code $selected
+		#dialog_short $selected
+		;;
+	4)
+		#dialog_full $selected
 		;;
 	esac
 
 }
 
 
-dialog_main
+function dialog_main() {
+        dialog --title "Dialog代码生成器" --ok-label "预览" \
+        --extra-button --extra-label "生成代码" --cancel-label "退出" \
+        --backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
+Suzhou,China." \
+        --menu "请选择操作：" 15 50 8 \
+	1 "生成代码" 2 "设置参数" \
+	2>/tmp/dialog.ui.menu.tmp
 
+        result=$?
+
+        selected=$(sudo sed -n '1p' /tmp/dialog.ui.menu.tmp)
+        #debug
+        if [ test $debug ]; then echo "selected="${selected}; fi
+
+	DEBUG "test11"
+
+        echo $result
+        case $result in
+        0)
+                #dialog_preview $selected
+                ;;
+        1)
+                exit 0;
+                ;;
+        3)
+                #dialog_short $selected
+                ;;
+        4)
+                #dialog_full $selected
+                ;;
+        esac
+
+}
+
+
+dialog_main
 result=$?
+
 while $result -eq 0;do
 	dialog_main
 done

@@ -20,45 +20,45 @@ from head import Head
 from config import ConfigFile
 
 
-def getsections():
-	config = ConfigFile()
+#Dialog操作类
+class Dialog(object):
+	#获得对话框类型列表
+	def List(self):
+		config = ConfigFile()
+		config.open("dialog.ini")
+		config.read()
 
-	config.open("dialog.ini")
-	config.read()
+		result = config.getsections()
+		i = 0
+		for section in result:
+			title = config.get(section, "title")
+			print ("%s %s"%(section,title)),	
+			
+		return 0		
 
-	result = config.getsections()
-	i = 0
-	for section in result:
-		#i = i + 1
-		#print i,
-		#print ("%s"%section),
-		title = config.get(section, "title")
-		print ("%s %s"%(section,title)),	
+	#对话框预览
+	def Preview(self, i):
+		config = ConfigFile()
+		config.open("dialog.ini")
+		config.read()
+	
+		result = config.get(i, "short")
+		print result,
 
-
-
-def preview(i):
-	config = ConfigFile()
-
-	config.open("dialog.ini")
-	config.read()
-
-	result = config.get(i, "code")
-	print result,
-	if (Head.Debug == True):
-		print ("result=%s"%result)
 
 
 
 if __name__ == '__main__':
 	argc = len(sys.argv)
 	if (argc == 2):
-		if (sys.argv[1] == "getsections"):
-			getsections()
+		if (sys.argv[1] == "list"):
+			dialog = Dialog()
+			dialog.List()	
 
 	elif (argc == 3):
 		if (sys.argv[1] == "preview"):
-			preview(sys.argv[2])
+			dialog = Dialog()
+			dialog.Preview(sys.argv[2])
 
 
 

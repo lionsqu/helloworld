@@ -40,3 +40,16 @@ function getfirstsubfolder() {
 	return
 }
 
+
+debug=1
+
+
+#显示调试信息
+function DEBUG() {
+	if [$debug]; then
+		echo $1
+	fi
+}
+
+
+
