@@ -45,6 +45,23 @@ class Dialog(object):
 		result = config.get(i, "short")
 		print result,
 
+	#获得简短代码
+	def GetShortCode(self, i):
+		config = ConfigFile()
+		config.open("dialog.ini")
+		config.read()
+
+		result = config.get(i, "short")
+		print result,
+
+	#获得完整代码
+	def GetFullCode(self, i):
+		config = ConfigFile()
+		config.open("dialog.ini")
+		config.read()
+
+		result = config.get(i, "full")
+		print result,
 
 
 
@@ -60,5 +77,14 @@ if __name__ == '__main__':
 			dialog = Dialog()
 			dialog.Preview(sys.argv[2])
 
+		elif(sys.argv[1] == "short"):
+			dialog = Dialog()
+			dialog.GetShortCode(sys.argv[2])
+		
+		elif(sys.argv[1] == "full"):
+			dialog = Dialog()
+			dialog.GetFullCode(sys.argv[2])
+		
+	
 
 

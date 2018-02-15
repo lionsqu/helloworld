@@ -41,10 +41,11 @@ function dialog_full() {
 
 function dialog_code() {
 	dialog --title "Dialog代码生成器" --ok-label "预览" \
-	--extra-button --extra-label "生成代码" --cancel-label "退出" \
+	--extra-button --extra-label "生成简短代码" --cancel-label "返回" \
+	--help-button --help-label "生成完整代码" \
 	--backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
 Suzhou,China." \
-	--menu "请选择操作：" 15 50 8 \
+	--menu "请选择操作：" 15 70 8 \
 	$(python dialog.py list) \
 	2>/tmp/dialog.ui.menu.tmp
 
@@ -67,7 +68,7 @@ Suzhou,China." \
 		dialog_preview $selected
 		;;
 	1)
-		exit 0;
+		#exit 0;
 		;;
 	3)
 		dialog_short $selected
@@ -129,7 +130,7 @@ Suzhou,China." \
 dialog_main
 result=$?
 
-while $result -ne 0;do
+while [$result -ne 0];do
 	dialog_main
 done
 	
