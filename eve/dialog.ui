@@ -20,7 +20,8 @@ source $suite_folder/head.cmd
 
 function dialog_preview() {
 	selected=$1
-	echo $selected
+	
+	DEBUG "selected="$selected
 
 	$(python dialog.py "preview" "$selected")
 
@@ -32,6 +33,7 @@ function dialog_short() {
 	python dialog.py "short" $1 > code.txt
 	return 0
 }
+
 
 function dialog_full() {
 	python dialog.py "full" $1 > code.txt
@@ -78,6 +80,7 @@ Suzhou,China." \
 		;;
 	esac
 
+	return 0
 }
 
 
@@ -89,7 +92,7 @@ Suzhou,China." \
         "backtitle：" 1 1 "" 1 10 35 0 \
         2>/tmp/dialog.ui.config.tmp
 
-	return 1 
+	return 0 
 }
 
 
@@ -114,6 +117,11 @@ Suzhou,China." \
 		1)
 			DEBUG "dialog_code"
 			dialog_code
+			result=$?
+
+			while [ $result -eq 0 ];do
+        			dialog_code
+			done
 			;;
 		2)
 			dialog_config
