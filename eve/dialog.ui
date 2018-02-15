@@ -24,18 +24,18 @@ function dialog_preview() {
 
 	$(python dialog.py "preview" "$selected")
 
-	return
+	return 0
 }
 
 
 function dialog_short() {
 	python dialog.py "short" $1 > code.txt
-	return
+	return 0
 }
 
 function dialog_full() {
 	python dialog.py "full" $1 > code.txt
-	return
+	return 0
 }
 
 
@@ -89,7 +89,7 @@ Suzhou,China." \
         "backtitle：" 1 1 "" 1 10 35 0 \
         2>/tmp/dialog.ui.config.tmp
 
-	return
+	return 1 
 }
 
 
@@ -112,6 +112,7 @@ Suzhou,China." \
 	0)
 		case $selected in
 		1)
+			DEBUG "dialog_code"
 			dialog_code
 			;;
 		2)
@@ -130,7 +131,7 @@ Suzhou,China." \
 dialog_main
 result=$?
 
-while [$result -ne 0];do
+while [ $result -eq 0 ];do
 	dialog_main
 done
 	

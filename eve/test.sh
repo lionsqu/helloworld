@@ -2,35 +2,23 @@ folder=$(cd "$(dirname "$0")";pwd)
 #source $folder/head.cmd
 
 
+function text() {
+	return 1
+}
+
+
+function test() {
+	#return 1
+	#return
+	echo 9
+	text
+}
+
+
+test
+
 result=$?
-echo "result="$result
 
-
-
-function dialog_calendar() {
-        echo 'dialog --title "title" --backtitle "backtitle" --calendar "date" 1 1'  
-        return
-}
-
-
-$(dialog_calendar)
-dialog_calendar > code.txt
-
-__debug__=1
-
-
-#显示调试信息
-function DEBUG() {
-	if [ $__debug__  -eq 1 ]; then
-        	echo "project_selected="$1;
-       	fi
-
-
-
-}
-
-
-
-DEBUG "debug"
+echo $result
 
 
