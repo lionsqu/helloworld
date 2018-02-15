@@ -21,7 +21,7 @@ __debug__=1
 
 #显示调试信息
 function DEBUG() {
-	if [ test $__debug__ ]; then
+	if [ $__debug__  -eq 1 ]; then
         	echo "project_selected="$1;
        	fi
 

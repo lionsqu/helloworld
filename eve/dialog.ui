@@ -29,12 +29,12 @@ function dialog_preview() {
 
 
 function dialog_short() {
-
+	python dialog.py "short" $1 > code.txt
 	return
 }
 
 function dialog_full() {
-	
+	python dialog.py "full" $1 > code.txt
 	return
 }
 
@@ -58,31 +58,42 @@ Suzhou,China." \
 	result=$?
 
 	selected=$(sudo sed -n '1p' /tmp/dialog.ui.menu.tmp)
-	#debug
-	if [ test $debug ]; then echo "selected="${selected}; fi
+	
+        DEBUG "selected="${selected}
+        DEBUG "result="${result}
 
-	echo $result
 	case $result in 
 	0)
-		#dialog_preview $selected
+		dialog_preview $selected
 		;;
 	1)
 		exit 0;
 		;;
 	3)
-		#dialog_short $selected
+		dialog_short $selected
 		;;
 	4)
-		#dialog_full $selected
+		dialog_full $selected
 		;;
 	esac
 
 }
 
 
+function dialog_config() {
+        dialog --title "Dialog代码生成器" \
+        --backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
+Suzhou,China." \
+        --form "请输入：" 15 50 8 \
+        "backtitle：" 1 1 "" 1 10 35 0 \
+        2>/tmp/dialog.ui.config.tmp
+
+	return
+}
+
+
 function dialog_main() {
-        dialog --title "Dialog代码生成器" --ok-label "预览" \
-        --extra-button --extra-label "生成代码" --cancel-label "退出" \
+        dialog --title "Dialog代码生成器" --cancel-label "退出" \
         --backtitle "Github工具箱 v0.1 Copyright (c) 2018 Zhengfeng Qu (Lions) \
 Suzhou,China." \
         --menu "请选择操作：" 15 50 8 \
@@ -92,25 +103,24 @@ Suzhou,China." \
         result=$?
 
         selected=$(sudo sed -n '1p' /tmp/dialog.ui.menu.tmp)
-        #debug
-        if [ test $debug ]; then echo "selected="${selected}; fi
 
-	DEBUG "test11"
+	DEBUG "selected="${selected}
+        DEBUG "result="${result}
 
-        echo $result
         case $result in
-        0)
-                #dialog_preview $selected
-                ;;
-        1)
-                exit 0;
-                ;;
-        3)
-                #dialog_short $selected
-                ;;
-        4)
-                #dialog_full $selected
-                ;;
+	0)
+		case $selected in
+		1)
+			dialog_code
+			;;
+		2)
+			dialog_config
+			;;
+		esac
+		;;
+	*)
+		exit 0
+		;;
         esac
 
 }
@@ -119,7 +129,7 @@ Suzhou,China." \
 dialog_main
 result=$?
 
-while $result -eq 0;do
+while $result -ne 0;do
 	dialog_main
 done
 	

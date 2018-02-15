@@ -41,12 +41,12 @@ function getfirstsubfolder() {
 }
 
 
-debug=1
+__debug__=1
 
 
 #显示调试信息
 function DEBUG() {
-	if [$debug]; then
+	if [ $__debug__ -eq 1 ]; then
 		echo $1
 	fi
 }
